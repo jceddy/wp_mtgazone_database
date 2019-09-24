@@ -33,5 +33,6 @@ function wmd_deactivate() {
 }
 
 function wmd_import_cards_exec() {
-  // code to import cards here 
+  // code to import cards here
+  wp_mail('dailyarena@dailyarena.net', 'MTGAZone Card Database Test', 'Running card import');
 }
