@@ -37,7 +37,22 @@ function wmd_deactivate() {
 
 add_action('wmd_import_cards_hook', 'wmd_import_cards_exec');
 
+// import arena cards from scryfall
 function wmd_import_cards_exec() {
-  // code to import cards here
+  // notification email
   wp_mail('dailyarena@dailyarena.net', 'MTGAZone Card Database', 'Running card import');
+  
+  // import the card database
+  $card_database = json_decode(file_get_contents("https://clans.dailyarena.net/card_database.json"), true);
+  
+  $next_card_index = wp_cache_get('wmd_next_card_index');
+  if($next_card_index == null) {
+     $next_card_index = 0;
+  }
+  
+  $card_keys = array_keys($card_database['cards']);
+  for($i = $next_card_index; $i < size_of($card_keys); $i++) {
+    $card = $card_database['cards'][$card_keys[$i]];
+    // process the card...
+  }
 }
