@@ -48,11 +48,21 @@ function wmd_import_cards_exec() {
   $next_card_index = wp_cache_get('wmd_next_card_index');
   if($next_card_index == null) {
      $next_card_index = 0;
+     wp_cache_add('wmd_next_card_index', 0);
   }
   
   $card_keys = array_keys($card_database['cards']);
   for($i = $next_card_index; $i < size_of($card_keys); $i++) {
-    $card = $card_database['cards'][$card_keys[$i]];
-    // process the card...
+    $arena_id = $card_keys[$i];
+    $card = $card_database['cards'][$arena_id];
+    
+    // get the fields for the card post
+    $title = $card['name'];
+    $content = '<!-- wp:image {"id":' . $arena_id . '} -->' . // NEED TO UPLOAD IMAGE...
+      '<figure class="wp-block-image"><img src="https://mtgazone.com/wp-content/uploads/2019/09/eld-022-mysterious-pathlighter.png" alt="eld-022-mysterious-pathlighter" class="wp-image-' . $arena_id . '"/></figure>' .
+      '<!-- /wp:image -->';
+    
+    // update next card index
+    wp_cache_add('wmd_next_card_index', $i + 1);
   }
 }
